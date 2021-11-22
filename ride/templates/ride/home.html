@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container">
+  <h1>Available Rides</h1>
+  <hr/>
+  <div class = "row row-cols-1 row-cols-md-3 mb-3">
+    {% for ride in rides %}
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal">{{ride.start_point}} - {{ride.destination}}</h4>
+        </div>
+        <div class="card-body">
+          <ul class="list-unstyled mt-3 mb-4">
+            <li>Name : {{ride.user.username}}</li>
+            <li>Contact : {{ride.contact|cut:' '}}</li>
+            <li>Posted on : <i class="fas fa-calendar-alt"></i> {{ride.creation_time}} </li>
+            <li>Start : {{ride.start_point}}</li>
+            <li>Destination : {{ride.destination}}</li>
+          </ul>
+          <div class =  "d-inline block">
+            <button type="button" class="btn btn-lg btn-outline-success">Accept and Contact</button>
+            <a href = "https://wa.me/{{ride.contact|cut:' '}}" target = "_blank" class="btn btn-lg btn-outline-primary">Contact</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
