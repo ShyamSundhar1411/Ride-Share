@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ride',
     'phonenumber_field',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -115,8 +116,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-
 #Static and Media Serves
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
@@ -126,9 +125,10 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #PhoneNumber
 PHONENUMBER_DEFAULT_REGION = "IN"
-PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
+PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
+#Crispy Forms
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+#Authentication backends

@@ -11,3 +11,15 @@ class RideHost(models.Model):
     creation_time = models.DateTimeField(auto_now_add = True)
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)
+class RidePool(models.Model):
+    user = models.ForeignKey(User,on_delete = models.CASCADE)
+    ride = models.ForeignKey(RideHost,on_delete = models.CASCADE)
+    isriding = models.BooleanField(default = False,null = True,blank = True)
+
+    def __str__(self):
+        string = str(self.ride.start_point)+'-'+str(self.ride.destination)+'-'+str(self.ride.id)
+        return string
+    def save(self,*args,**kwargs):
+        if not self.isriding:
+            self.isriding = True
+        super(RidePool,self).save(*args,**kwargs)

@@ -1,4 +1,4 @@
-from . models import RideHost
+from . models import RideHost,RidePool
 from django.shortcuts import render
 from django.http import HttpResponse
 
