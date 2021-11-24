@@ -9,11 +9,7 @@
     <div class="col">
       <div class="card custom-card mb-4 rounded-3 shadow-sm">
         <div class="card-header py-3">
-          {% if accepted_ride.ride.id == ride.id %}
-          <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
-          {% else %}
           <h4 class="my-0 fw-normal">{{ride.start_point}} - {{ride.destination}}</h4>
-          {% endif %}
         </div>
         <div class="card-body">
           <ul class="list-unstyled mt-3 mb-4">
@@ -23,7 +19,6 @@
             <li>Start : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
           </ul>
-          {% if not isriding %}
           <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
             {% csrf_token %}
             <div class = "d-inline-block">
@@ -31,37 +26,13 @@
               <a href = "https://wa.me/{{ride.contact|cut:' '}}" class = "btn btn-outline-primary">Contact</a>
             </div>
           </form>
-          {% else %}
-          {% if accepted_ride.ride.id == ride.id %}
-          <form method = "POST" action = "{% url 'cancel_ride' ride.id %}">
-            {% csrf_token %}
-            <div class = "d-inline-block">
-              <a href = "https://wa.me/{{ride.contact|cut:' '}}" class = "btn btn-outline-primary">Contact</a>
-              <button type = "submit" class = "btn btn-outline-danger">Cancel</button>
-            </div>
-          </form>
-          {% else %}
-          <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
-            {% csrf_token %}
-            <div class = "d-inline-block">
-              <button type = "submit" disabled = "true" class = "btn btn-outline-success">Accept</button>
-              <a href = "https://wa.me/{{ride.contact|cut:' '}}" class = "btn disabled btn-outline-primary">Contact</a>
-            </div>
-          </form>
-          {% endif %}
-          {% endif %}
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
   <div class = "d-inline-block float-end">
-    {% if not isriding %}
-    <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
-    {% else %}
     <a href = "{% url 'create_ride' %}" class = "btn disabled btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
-    {% endif %}
   </div>
-
 </div>
 {% endblock %}
