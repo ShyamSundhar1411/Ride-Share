@@ -8,6 +8,7 @@ django = "*"
 pillow = "*"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
 django-crispy-forms = "*"
+django-allauth = "*"
 
 [dev-packages]
 

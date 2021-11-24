@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,12 +33,19 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ride',
+    #Authentication
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    #Third Party Packages
     'phonenumber_field',
     'crispy_forms',
 ]
@@ -132,3 +140,30 @@ PHONENUMBER_DEFAULT_FORMAT = "INTERNATIONAL"
 #Crispy Forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #Authentication backends
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-secondary',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+ }
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+SITE_ID = 1
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_STORE_TOKENS = False
+LOGOUT_URL = "account_logout"
+ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
+LOGIN_REDIRECT_URL = "home"
+#Email Backends
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_USER_SSL = False
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'clashwithchiefrpjyt@gmail.com'
+EMAIL_HOST_PASSWORD = 'pjtioxzccqphhddc'
+EMAIL_PORT = 587
+DEFAULT_FROM_EMAIL = "Ride Share Team <noreply@rideshare.com>"
