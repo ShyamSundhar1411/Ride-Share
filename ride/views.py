@@ -67,6 +67,7 @@ def cancelride(request,pk):
     accepted_pool_ride = get_object_or_404(RidePool,id = pk)
     if request.method == "POST":
         accepted_pool_ride.status = "CANCELLED"
+        accepted_pool_ride.isriding = False
         accepted_pool_ride.save()
         messages.success(request,"Successfully cancelled your ride")
         return redirect("home")

@@ -9,10 +9,14 @@
     <div class="col">
       <div class="card custom-card mb-4 rounded-3 shadow-sm">
         <div class="card-header py-3">
-          {% if isHost or accepted_ride.isRiding and ride.id == accepted_ride.ride.id or ride.user == user %}
+          {% if isRiding and ride.id == accepted_ride.ride.id  %}
+          <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
+          {% else %}
+          {% if isHost and ride.user == user %}
           <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
           {% else %}
           <h4 class="my-0 fw-normal">{{ride.start_point}} - {{ride.destination}}</h4>
+          {% endif %}
           {% endif %}
         </div>
         <div class="card-body">
@@ -23,14 +27,18 @@
             <li>Start : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
           </ul>
-          {% if isHost and ride.user == user %}
+          {% if isHost %}
+            {% if ride.user == user %}
             <form method = "POST" action = "{% url 'delete_hosted_ride' ride.id %}">
               {% csrf_token %}
               <div class = "d-inline-block">
                 <a href = "{% url 'edit_hosted_ride' ride.id %}" class = "btn btn-outline-primary">Edit Ride</a>
-                <button type = "submit" class = "btn btn-outline-success">Expire Ride</button>
+                <button type = "submit" class = "btn btn-outline-danger">Expire Ride</button>
               </div>
             </form>
+            {% else %}
+            <button type = "submit" class = "btn disabled btn-outline-info">Already Hosted a Ride</button>
+            {% endif %}
           {% else %}
                 {% if isRiding %}
                     {% if ride.id == accepted_ride.ride.id %}
@@ -41,6 +49,8 @@
                           <button type = "submit" class = "btn btn-outline-danger">Cancel</button>
                         </div>
                       </form>
+                    {% else %}
+                    <button type = "submit" class = "btn disabled btn-outline-info">Already enrolled a Ride</button>
                     {% endif %}
                 {% else %}
                   <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
