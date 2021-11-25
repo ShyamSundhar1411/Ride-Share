@@ -35,16 +35,27 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
 #Function Based
 @login_required
 def home(request):
-    rides = RideHost.objects.all()
-    return render(request,'ride/home.html',{'rides':rides})
+    rides = RideHost.objects.filter(status = "OPEN")
+    if RideHost.objects.filter(user = request.user,status = "OPEN").exists():
+        isHost = True
+    else:
+        isHost = False
+    try:
+        accepted_ride = RidePool.objects.get(user = request.user,status = "ACCEPTED")
+        isRiding = True
+    except:
+        accepted_ride = None
+        isRiding = False
+    return render(request,'ride/home.html',{'rides':rides,'isHost':isHost,'isRiding':isRiding,"accepted_ride":accepted_ride})
 @login_required
 def acceptride(request,pk):
     accepted_ride = get_object_or_404(RideHost,id = pk)
     if request.method == "POST":
-        if not RidePool.objects.filter(ride = accepted_ride,user = request.user).exists():
+        if not RidePool.objects.filter(ride = accepted_ride,status = "OPEN",user = request.user).exists():
             RidePool.objects.create(
                 user = request.user,
-                ride = accepted_ride
+                ride = accepted_ride,
+                status = "ACCEPTED"
             )
             return redirect("home")
         else:
@@ -55,17 +66,20 @@ def acceptride(request,pk):
 def cancelride(request,pk):
     accepted_pool_ride = get_object_or_404(RidePool,id = pk)
     if request.method == "POST":
-        accepted_pool_ride.delete()
+        accepted_pool_ride.status = "CANCELLED"
+        accepted_pool_ride.save()
         messages.success(request,"Successfully cancelled your ride")
         return redirect("home")
     else:
+        messages.error(request,"Error while processing request")
         return redirect("home")
 @login_required
 def deleteride(request,pk):
     accepted_ride = get_object_or_404(RideHost,id = pk)
     if request.method == "POST":
-        accepted_ride.Status = "EXPIRED"
-        messages.success(request,"Deleted Ride Successfully")
+        accepted_ride.status = "EXPIRED"
+        accepted_ride.save()
+        messages.success(request,"Expired Ride Successfully")
         return redirect("home")
     else:
         messages.error(request,"Error while processing request")
