@@ -19,7 +19,7 @@
             <li>Start : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
           </ul>
-          <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
+          <form method = "POST" action = "{% url 'delete_hosted_ride' ride.id %}">
             {% csrf_token %}
             <div class = "d-inline-block">
               <button type = "submit" class = "btn btn-outline-success">Accept</button>

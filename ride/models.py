@@ -1,4 +1,5 @@
 from django.db import models
+from .choices import Host_Status_Choices,Pool_Status_Choices
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 
@@ -9,11 +10,13 @@ class RideHost(models.Model):
     start_point = models.CharField(max_length = 500,null = True,blank = True)
     destination = models.CharField(max_length = 500,null = True,blank = True)
     creation_time = models.DateTimeField(auto_now_add = True)
+    status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)
 class RidePool(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
     ride = models.ForeignKey(RideHost,on_delete = models.CASCADE)
+    status = models.CharField(max_length = 500,choices = Pool_Status_Choices,default = "CANCELLED")
     isriding = models.BooleanField(default = False,null = True,blank = True)
 
     def __str__(self):

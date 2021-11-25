@@ -16,6 +16,7 @@ class HostRide(LoginRequiredMixin,generic.CreateView):
     success_url = reverse_lazy("home")
     def form_valid(self,form):
         form.instance.user = self.request.user
+        form.instance.status = "OPEN"
         return super(HostRide, self).form_valid(form)
 class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
     model  = RideHost
@@ -63,7 +64,7 @@ def cancelride(request,pk):
 def deleteride(request,pk):
     accepted_ride = get_object_or_404(RideHost,id = pk)
     if request.method == "POST":
-        accepted_ride.delete()
+        accepted_ride.Status = "EXPIRED"
         messages.success(request,"Deleted Ride Successfully")
         return redirect("home")
     else:
