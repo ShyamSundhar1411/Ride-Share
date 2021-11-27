@@ -26,7 +26,8 @@ urlpatterns = [
     path('',views.home,name = "home"),
     path('ride/',include("ride.urls")),
     #Authentications
-    path('accounts/',include("allauth.urls"))
+    path('accounts/',include("allauth.urls")),
+    path('profile/<slug:slug>',views.profile,name = "profile"),
 
 ]
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)

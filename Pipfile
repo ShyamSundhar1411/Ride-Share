@@ -9,6 +9,12 @@ pillow = "*"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "*"}
 django-crispy-forms = "*"
 django-allauth = "*"
+django-celery-beat = "*"
+flower = "*"
+celery = "*"
+redis = "*"
+django-celery-results = "*"
+django-environ = "*"
 
 [dev-packages]
 

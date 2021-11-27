@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div class = "container">
+<div class = "container" id = "refresh">
   <h1>Available Rides</h1>
   <hr/>
   <div class = "row row-cols-1 row-cols-md-3 mb-3">
@@ -22,7 +22,6 @@
         <div class="card-body">
           <ul class="list-unstyled mt-3 mb-4">
             <li>Name : {{ride.user.username}}</li>
-            <li>Contact : {{ride.contact|cut:' '}}</li>
             <li>Posted on : <i class="fas fa-calendar-alt"></i> {{ride.creation_time}} </li>
             <li>Start : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
@@ -32,7 +31,7 @@
             <form method = "POST" action = "{% url 'delete_hosted_ride' ride.id %}">
               {% csrf_token %}
               <div class = "d-inline-block">
-                <a href = "{% url 'edit_hosted_ride' ride.id %}" class = "btn btn-outline-primary">Edit Ride</a>
+                <a href = "{% url 'edit_hosted_ride' ride.id ride.slug %}" class = "btn btn-outline-primary">Edit Ride</a>
                 <button type = "submit" class = "btn btn-outline-danger">Expire Ride</button>
               </div>
             </form>
@@ -74,4 +73,11 @@
     {% endif %}
   </div>
 </div>
+<script> 
+  $(document).ready(function(){
+  setInterval(function(){
+    $("#refresh").load(" #refresh > *");
+  }, 100000);
+  });
+</script>
 {% endblock %}

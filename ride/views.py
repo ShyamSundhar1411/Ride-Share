@@ -1,4 +1,5 @@
 from . models import RideHost,RidePool
+from . forms import HostRideForm, UserForm,ProfileForm
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse,Http404
 from django.contrib import messages
@@ -7,20 +8,13 @@ from django.urls import reverse_lazy,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
+
 # Create your views here.
 #Class Based
-class HostRide(LoginRequiredMixin,generic.CreateView):
-    model = RideHost
-    fields = ['start_point','destination','contact']
-    template_name = "ride/HostRide.html"
-    success_url = reverse_lazy("home")
-    def form_valid(self,form):
-        form.instance.user = self.request.user
-        form.instance.status = "OPEN"
-        return super(HostRide, self).form_valid(form)
 class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
     model  = RideHost
     fields = ['start_point','destination','contact']
+    sluf_field = RideHost.slug
     template_name = "ride/HostRideEdit.html"
     def get_object(self):
         ride = super(HostRideEditView,self).get_object()
@@ -29,8 +23,9 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
         return ride
     def get_success_url(self):
         pk = self.kwargs["pk"]
+        slug = self.kwargs["slug"]
         messages.success(self.request,'Updated Successfully')
-        return reverse("edit_hosted_ride", kwargs={"pk": pk})
+        return reverse("edit_hosted_ride", kwargs={"pk": pk,'slug':slug})
 
 #Function Based
 @login_required
@@ -47,6 +42,32 @@ def home(request):
         accepted_ride = None
         isRiding = False
     return render(request,'ride/home.html',{'rides':rides,'isHost':isHost,'isRiding':isRiding,"accepted_ride":accepted_ride})
+@login_required
+def hostaride(request):
+    ride = RideHost.objects.filter(user = request.user,status = "OPEN").exists()
+    accepted_ride  = RidePool.objects.filter(user = request.user,status = "ACCEPTED").exists()
+    if ride:
+        messages.error(request,"You currently Hosted a ride wait till it expires.")
+        return redirect("home")
+    if accepted_ride:
+        messages.error(request,"You are currently enrolled in a ride. Cancel the enrolled ride to continue hosting a ride")
+        return redirect("home")
+    else:
+        if request.method == 'POST':
+            hostride_form = HostRideForm(request.POST)
+            if hostride_form.is_valid():
+                ride = hostride_form.save(commit = False)
+                ride.user = request.user
+                ride.status = "OPEN"
+                ride.save()
+                messages.success(request,"Hosted a Ride successfully")
+                return redirect("home")
+            else:
+                return render(request,"ride/hostride.html",{"form":hostride_form,"hostride_form_errors":hostride_form.errors})
+        else:
+            return render(request,"ride/hostride.html",{"form":HostRideForm()})
+        
+    
 @login_required
 def acceptride(request,pk):
     accepted_ride = get_object_or_404(RideHost,id = pk)
@@ -85,3 +106,19 @@ def deleteride(request,pk):
     else:
         messages.error(request,"Error while processing request")
         return redirect("home")
+@login_required
+def profile(request,slug):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST,instance = request.user)
+        profile_form = ProfileForm(request.POST,request.FILES,instance = request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'Profile Updated Successfully')
+            return redirect('profile',slug = request.user.profile.slug)
+        else:
+            return render(request, 'account/profile.html', {'user_form':user_form,'profile_form':profile_form,'user_form_errors':user_form.errors,'profile_form_errors':profile_form.errors})
+    else:
+        user_form = UserForm(instance = request.user)
+        profile_form = ProfileForm(instance = request.user.profile)
+        return render(request,'account/profile.html',{'user_form':user_form,'profile_form':profile_form})

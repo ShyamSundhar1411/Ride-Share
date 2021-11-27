@@ -45,6 +45,14 @@
                             <div class = "col">
                                 {{profile_form.avatar|as_crispy_field}}
                             </div>
+                            <div class = "col">
+                                {{profile_form.contact|as_crispy_field}}
+                            </div>
+                        </div>
+                        <div class="row form-row">
+                            <div class = "col">
+                                {{profile_form.address|as_crispy_field}}
+                            </div>
                         </div>
                         <div class = "d-inline-block py-2">
                             <button type = "submit" class = "btn btn-primary me-2 py-1">Update Profile</button>
