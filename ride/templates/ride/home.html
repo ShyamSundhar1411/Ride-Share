@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div class = "container" >
+<div class = "container"id = "refresh">
   <h1>Available Rides</h1>
   <hr/>
-  <div class  = "container d-inline-block" id = "refresh">
+  <div class  = "container d-inline-block">
   <div class = "row row-cols-1 row-cols-md-3 mb-3">
     {% for ride in rides %}
     <div class="col">
@@ -59,7 +59,7 @@
                     {% csrf_token %}
                     {% if ride.seats == 0 %}
                     <div class = "d-inline-block">
-                      <button type = "submit" class = "btn disabled btn-outline-success">Accept Ride</button>
+                      <button type = "submit" class = "btn disabled btn-outline-secondary">Accept Ride</button>
                     </div>
                     {% else %}
                     <div class = "d-inline-block">
@@ -76,7 +76,7 @@
   </div>
   <div class = "d-inline-block float-end">
     {% if isHost or isRiding %}
-    <a href = "{% url 'create_ride' %}" class = "btn disabled btn-secondary"><i class="fas fa-plus"></i> Add Ride</a>
+    <a href = "{% url 'create_ride' %}" class = "btn disabled btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
     {% else %}
     <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
     {% endif %}
