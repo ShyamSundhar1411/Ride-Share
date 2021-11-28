@@ -76,7 +76,7 @@
   </div>
   <div class = "d-inline-block float-end">
     {% if isHost or isRiding %}
-    <a href = "{% url 'create_ride' %}" class = "btn disabled btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
+    <a href = "{% url 'create_ride' %}" class = "btn disabled btn-secondary"><i class="fas fa-plus"></i> Add Ride</a>
     {% else %}
     <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
     {% endif %}
