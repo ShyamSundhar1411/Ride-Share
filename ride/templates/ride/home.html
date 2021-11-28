@@ -27,6 +27,7 @@
             <li>Start Time : <i class="fas fa-calendar-alt"></i> {{ride.start_time}} </li>
             <li>Start Point : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
+            <li>Available Seats : {{ride.seats}}</li>
           </ul>
           {% if isHost %}
             {% if ride.user == user %}
@@ -56,9 +57,15 @@
                 {% else %}
                   <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
                     {% csrf_token %}
+                    {% if ride.seats == 0 %}
+                    <div class = "d-inline-block">
+                      <button type = "submit" class = "btn disabled btn-outline-success">Accept Ride</button>
+                    </div>
+                    {% else %}
                     <div class = "d-inline-block">
                       <button type = "submit" class = "btn btn-outline-success">Accept Ride</button>
                     </div>
+                    {% endif %}
                   </form>
                 {% endif %}
             {% endif %}

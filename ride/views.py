@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 #Class Based
 class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
     model  = RideHost
-    fields = ['start_point','destination','contact','start_time']
+    fields = ['start_point','destination','contact','start_time','seats']
     sluf_field = RideHost.slug
     template_name = "ride/HostRideEdit.html"
     def get_object(self):
@@ -75,13 +75,19 @@ def acceptride(request,pk):
     accepted_ride = get_object_or_404(RideHost,id = pk)
     if request.method == "POST":
         if not RidePool.objects.filter(ride = accepted_ride,status = "OPEN",user = request.user).exists():
-            RidePool.objects.create(
-                user = request.user,
-                ride = accepted_ride,
-                status = "ACCEPTED"
-            )
-            send_notification_on_acceptance(pk)
-            return redirect("home")
+            if not accepted_ride.available > accepted_ride.seats : 
+                RidePool.objects.create(
+                    user = request.user,
+                    ride = accepted_ride,
+                    status = "ACCEPTED"
+                )
+                accepted_ride.seats -=1  
+                accepted_ride.save()
+                send_notification_on_acceptance(pk)
+                return redirect("home")
+            else:
+                messages.error(request,"Seat not available")
+                return redirect("home")
         else:
             return redirect("create_ride")
     else:
@@ -89,10 +95,13 @@ def acceptride(request,pk):
 @login_required
 def cancelride(request,pk):
     accepted_pool_ride = get_object_or_404(RidePool,id = pk)
+    accepted_ride = get_object_or_404(RideHost,id = accepted_pool_ride.ride.id)
     if request.method == "POST":
         accepted_pool_ride.status = "CANCELLED"
         accepted_pool_ride.isriding = False
         accepted_pool_ride.save()
+        accepted_ride.seats+=1
+        accepted_ride.save()
         messages.success(request,"Successfully cancelled your ride")
         send_notification_on_cancellation(accepted_pool_ride.ride.id)
         return redirect("home")

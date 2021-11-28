@@ -18,6 +18,8 @@ class RideHost(models.Model):
     creation_time = models.DateTimeField(auto_now_add = True)
     start_time = models.TimeField(editable = True)
     status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
+    seats = models.PositiveIntegerField(default = 1)
+    available = models.PositiveIntegerField(default = 1)
     slug = models.SlugField(blank = True)
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)

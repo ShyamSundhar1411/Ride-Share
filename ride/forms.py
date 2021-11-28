@@ -6,7 +6,7 @@ class HostRideForm(forms.ModelForm):
     start_time = forms.TimeField(help_text = "Enter time in 24 hours format (HH:MM:SS)")
     class Meta:
         model = RideHost
-        fields = ['start_point','destination','contact','start_time']
+        fields = ['start_point','destination','contact','start_time','seats']
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
