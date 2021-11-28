@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div class = "container" id = "refresh">
+<div class = "container" >
   <h1>Available Rides</h1>
   <hr/>
+  <div class  = "container d-inline-block" id = "refresh">
   <div class = "row row-cols-1 row-cols-md-3 mb-3">
     {% for ride in rides %}
     <div class="col">
@@ -23,7 +24,8 @@
           <ul class="list-unstyled mt-3 mb-4">
             <li>Name : {{ride.user.username}}</li>
             <li>Posted on : <i class="fas fa-calendar-alt"></i> {{ride.creation_time}} </li>
-            <li>Start : {{ride.start_point}}</li>
+            <li>Start Time : <i class="fas fa-calendar-alt"></i> {{ride.start_time}} </li>
+            <li>Start Point : {{ride.start_point}}</li>
             <li>Destination : {{ride.destination}}</li>
           </ul>
           {% if isHost %}
@@ -72,6 +74,7 @@
     <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
     {% endif %}
   </div>
+</div>
 </div>
 <script> 
   $(document).ready(function(){

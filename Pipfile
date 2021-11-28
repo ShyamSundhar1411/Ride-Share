@@ -15,6 +15,13 @@ celery = "*"
 redis = "*"
 django-celery-results = "*"
 django-environ = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
+dj-database-url = "*"
+cloudinary = "*"
+django-cloudinary-storage = "*"
+django-heroku = "*"
 
 [dev-packages]
 

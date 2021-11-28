@@ -16,6 +16,7 @@ class RideHost(models.Model):
     start_point = models.CharField(max_length = 500,null = True,blank = True)
     destination = models.CharField(max_length = 500,null = True,blank = True)
     creation_time = models.DateTimeField(auto_now_add = True)
+    start_time = models.TimeField(editable = True)
     status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
     slug = models.SlugField(blank = True)
     def __str__(self):

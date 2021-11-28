@@ -9,6 +9,9 @@
 .footer-text{
   text-decoration:none;
 }
+.footer{
+  position:fixed;
+}
 .custom-enrollment{
   color:green;
 }

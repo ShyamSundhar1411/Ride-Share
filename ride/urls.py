@@ -10,5 +10,6 @@ urlpatterns = [
     #PoolARide
     path('accept/<int:pk>/',views.acceptride,name = "accept_ride"),
     path('cancel/accepted/ride/<int:pk>/',views.cancelride,name = "cancel_ride"),
+    path('dashboard',views.dashboard,name = "dashboard"),
 
 ]

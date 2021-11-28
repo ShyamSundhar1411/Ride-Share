@@ -1,6 +1,8 @@
 from . models import RideHost,RidePool
 from . forms import HostRideForm, UserForm,ProfileForm
+from . tasks import send_notification_on_acceptance,send_notification_on_cancellation
 from django.shortcuts import render,get_object_or_404,redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse,Http404
 from django.contrib import messages
 from django.views import generic
@@ -13,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 #Class Based
 class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
     model  = RideHost
-    fields = ['start_point','destination','contact']
+    fields = ['start_point','destination','contact','start_time']
     sluf_field = RideHost.slug
     template_name = "ride/HostRideEdit.html"
     def get_object(self):
@@ -78,6 +80,7 @@ def acceptride(request,pk):
                 ride = accepted_ride,
                 status = "ACCEPTED"
             )
+            send_notification_on_acceptance(pk)
             return redirect("home")
         else:
             return redirect("create_ride")
@@ -91,6 +94,7 @@ def cancelride(request,pk):
         accepted_pool_ride.isriding = False
         accepted_pool_ride.save()
         messages.success(request,"Successfully cancelled your ride")
+        send_notification_on_cancellation(accepted_pool_ride.ride.id)
         return redirect("home")
     else:
         messages.error(request,"Error while processing request")
@@ -122,3 +126,28 @@ def profile(request,slug):
         user_form = UserForm(instance = request.user)
         profile_form = ProfileForm(instance = request.user.profile)
         return render(request,'account/profile.html',{'user_form':user_form,'profile_form':profile_form})
+@login_required
+def dashboard(request):
+    hostedrides = RideHost.objects.filter(user = request.user).order_by('-creation_time')
+    hosted_ride_page = request.GET.get('hosted_ride_page', 1)
+    hosted_ride_paginator = Paginator(hostedrides,4)
+    hosted_ride_count = hosted_ride_paginator.count
+    acceptrides = RidePool.objects.filter(user = request.user)
+    accepted_ride_page = request.GET.get('accepted_ride_page', 1)
+    accepted_ride_paginator = Paginator(acceptrides,4)
+    accepted_ride_count = accepted_ride_paginator.count
+    try:
+        hostedrides = hosted_ride_paginator.page(hosted_ride_page)
+    except PageNotAnInteger :
+        hostedrides = hosted_ride_paginator.page(1)
+
+    except EmptyPage:
+        hostedrides = hosted_ride_paginator.page(hosted_ride_paginator.num_pages)
+
+    try:
+        acceptrides = accepted_ride_paginator.page(accepted_ride_page)
+    except PageNotAnInteger :
+        acceptrides = accepted_ride_paginator.page(1)
+    except EmptyPage:
+        acceptrides = accepted_ride_page.page(accepted_ride_paginator.num_pages)
+    return render(request,'ride/dashboard.html',{"hosted_rides":hostedrides,"accepted_rides":acceptrides,'hosted_ride_count':hosted_ride_count,'accepted_ride_count':accepted_ride_count})

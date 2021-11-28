@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class = "container">
+    <h1>Hosted Ride{{hosted_ride_count|pluralize}}</h1>
+    <hr/>
+    {% if hosted_rides %}
+    
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Start Point</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Posted On</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for hosted_ride in hosted_rides %}
+          <tr>
+            <td>{{hosted_ride.start_point}}</td>
+            <td>{{hosted_ride.destination}}</td>
+            <td><i class="fas fa-calendar-alt"></i> {{hosted_ride.creation_time}} </td>
+            <td>{{hosted_ride.status}}</td>
+          </tr>
+          {% endfor %}
+        </tbody> 
+      </table>
+    {% else %}
+      <h1 class = "text-center">You have not hosted any rides yet.</h1>
+      <div class = "d-inline-block float-end">
+        <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
+      </div>
+    {% endif %}
+    {% if hosted_rides.has_other_pages %}
+      <ul class = 'pagination justify-content-center'>
+        {% if hosted_rides.has_previous %}
+          <li class = 'page-item'><a class="page-link" href="?hosted_ride_page={{ hosted_rides.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+      <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for num in hosted_rides.paginator.page_range %}
+      {% ifequal num hosted_rides.number %}
+        <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
+      {% else %}
+        <li class = 'page-item'><a class="page-link" href="?hosted_ride_page={{ num }}">{{ num }}</a></li>
+      {% endifequal %}
+    {% endfor %}
+    {% if hosted_rides.has_next %}
+      <li class = 'page-item'><a class="page-link" href="?hosted_ride_page={{ hosted_ride.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+    {% endif %}
+      </ul>
+      {% endif %}
+    <br/>
+    <h1>Accepted Ride{{accepted_ride_count|pluralize}}</h1>
+    <hr/>
+    {% if accepted_rides %}
+    
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Start Point</th>
+            <th scope="col">Destination</th>
+            <th scope="col">Host</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for accepted_ride in accepted_rides %}
+          <tr>
+            <td>{{accepted_ride.ride.start_point}}</td>
+            <td>{{accepted_ride.ride.destination}}</td>
+            <td>{{accepted_ride.ride.user.username}}</td>
+            <td>{{accepted_ride.status}}</td>
+          </tr>
+        {% endfor %}
+        </tbody> 
+      </table>
+    {% else %}
+      <h5 class = "text-center">You have not accepted any rides yet.</h5>
+    {% endif %}
+    {% if accepted_rides.has_other_pages %}
+      <ul class = 'pagination justify-content-center'>
+        {% if accepted_rides.has_previous %}
+          <li class = 'page-item'><a class="page-link" href="?accepted_ride_page={{ accepted_rides.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+      <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
+    {% endif %}
+    {% for num in accepted_rides.paginator.page_range %}
+      {% ifequal num accepted_rides.number %}
+        <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
+      {% else %}
+        <li class = 'page-item'><a class="page-link" href="?accepted_ride_page={{ num }}">{{ num }}</a></li>
+      {% endifequal %}
+    {% endfor %}
+    {% if accepted_rides.has_next %}
+      <li class = 'page-item'><a class="page-link" href="?accepted_ride_page={{ accepted_rides.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled page-item"><a class="page-link" href="#">&raquo;</a></li>
+    {% endif %}
+      </ul>
+      {% endif %}
+</div>
+{% endblock %}
