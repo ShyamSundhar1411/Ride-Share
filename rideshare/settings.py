@@ -176,11 +176,11 @@ DEFAULT_FROM_EMAIL = "VITrendz Chennai Tech Team <noreply@rideshare.com>"
 
 #Celery Settings
 CELERY_BROKER_URL = os.environ["REDIS_URL"]
+CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Kolkata'
-CELERY_RESULTS_BACKEND = 'django-db'
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 #Cloudinary Storage
 CLOUDINARY_STORAGE = {

@@ -22,6 +22,7 @@ dj-database-url = "*"
 cloudinary = "*"
 django-cloudinary-storage = "*"
 django-heroku = "*"
+honcho = "*"
 
 [dev-packages]
 
