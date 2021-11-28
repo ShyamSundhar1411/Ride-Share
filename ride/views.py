@@ -65,9 +65,9 @@ def hostaride(request):
                 messages.success(request,"Hosted a Ride successfully")
                 return redirect("home")
             else:
-                return render(request,"ride/hostride.html",{"form":hostride_form,"hostride_form_errors":hostride_form.errors})
+                return render(request,"ride/createride.html",{"form":hostride_form,"hostride_form_errors":hostride_form.errors})
         else:
-            return render(request,"ride/hostride.html",{"form":HostRideForm()})
+            return render(request,"ride/createride.html",{"form":HostRideForm()})
         
     
 @login_required
