@@ -84,6 +84,7 @@ def acceptride(request,pk):
                 accepted_ride.seats -=1  
                 accepted_ride.save()
                 send_notification_on_acceptance(pk)
+                messages.success(request,"Accepted the Ride")
                 return redirect("home")
             else:
                 messages.error(request,"Seat not available")
