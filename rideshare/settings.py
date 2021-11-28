@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import environ
 import django_heroku
+import dj_database_url
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
