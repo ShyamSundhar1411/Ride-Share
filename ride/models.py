@@ -60,7 +60,7 @@ class Profile(models.Model):
 @receiver(post_save,sender = RideHost)
 def create_expiration_for_ride(sender,instance,created,**kwargs):
     if created:
-        schedule,created = CrontabSchedule.objects.get_or_create(hour = 23)
+        schedule,created = CrontabSchedule.objects.get_or_create(hour = 6)
         task_name = "Expire_Ride Automatically"+str(instance.slug)
         task = PeriodicTask.objects.create(crontab = schedule,name = task_name,task = "ride.tasks.expirehostedride",args = json.dumps([instance.id,instance.user.id]))
 @receiver(post_save,sender = User)

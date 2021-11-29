@@ -28,7 +28,7 @@
     {% else %}
       <h1 class = "text-center">You have not hosted any rides yet.</h1>
       <div class = "d-inline-block float-end">
-        <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Add Ride</a>
+        <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Host Ride</a>
       </div>
     {% endif %}
     {% if hosted_rides.has_other_pages %}
