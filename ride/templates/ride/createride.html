@@ -14,4 +14,11 @@
   </form>
   <h4 class = 'text-muted text-center'>*Note* Rides expire within 6 hours of their creation</h4>
 </div>
+<script>
+  $(function () {
+    $("#id_start_time").datetimepicker({
+      format: 'd/m/Y H:i',
+    });
+  });
+</script>
 {% endblock %}

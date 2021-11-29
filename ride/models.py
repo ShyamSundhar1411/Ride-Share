@@ -17,10 +17,10 @@ class RideHost(models.Model):
     start_point = models.CharField(max_length = 500,null = True,blank = True)
     destination = models.CharField(max_length = 500,null = True,blank = True)
     creation_time = models.DateTimeField(auto_now_add = True)
-    start_time = models.TimeField(editable = True)
+    start_time = models.DateTimeField(editable = True)
     status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
     seats = models.PositiveIntegerField(default = 1,validators = [MaxValueValidator(10),MinValueValidator(1)])
-    available = models.PositiveIntegerField(default = 1,validators = [MaxValueValidator(10),MinValueValidator(1)])
+    available = models.PositiveIntegerField(default = 1,validators = [MaxValueValidator(10),MinValueValidator(0)])
     slug = models.SlugField(blank = True)
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)
