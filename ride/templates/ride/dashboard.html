@@ -64,6 +64,7 @@
             <th scope="col">Destination</th>
             <th scope="col">Host</th>
             <th scope="col">Status</th>
+            <th scope="col">Contacts</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +74,7 @@
             <td>{{accepted_ride.ride.destination}}</td>
             <td>{{accepted_ride.ride.user.username}}</td>
             <td>{{accepted_ride.status}}</td>
+            <td><a href = "https://wa.me/{{accepted_ride.ride.contact|cut:' '}}" class = "btn btn-primary">Contact</a></td>
           </tr>
         {% endfor %}
         </tbody> 
