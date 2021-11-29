@@ -4,6 +4,7 @@ import uuid
 from django.db import models
 from .choices import Host_Status_Choices,Pool_Status_Choices
 from django.dispatch import receiver
+from django.core.validators import MaxValueValidator,MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
@@ -18,8 +19,8 @@ class RideHost(models.Model):
     creation_time = models.DateTimeField(auto_now_add = True)
     start_time = models.TimeField(editable = True)
     status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
-    seats = models.PositiveIntegerField(default = 1)
-    available = models.PositiveIntegerField(default = 1)
+    seats = models.PositiveIntegerField(default = 1,validators = [MaxValueValidator(10),MinValueValidator(0)])
+    available = models.PositiveIntegerField(default = 1,validators = [MaxValueValidator(10),MinValueValidator(0)])
     slug = models.SlugField(blank = True)
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)
@@ -34,7 +35,7 @@ class RidePool(models.Model):
     ride = models.ForeignKey(RideHost,on_delete = models.CASCADE)
     status = models.CharField(max_length = 500,choices = Pool_Status_Choices,default = "CANCELLED")
     isriding = models.BooleanField(default = False,null = True,blank = True)
-
+    update_time = models.DateTimeField(auto_now = True)
     def __str__(self):
         string = str(self.ride.start_point)+'-'+str(self.ride.destination)+'-'+str(self.ride.id)
         return string

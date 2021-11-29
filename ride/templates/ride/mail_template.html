@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Order received</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body style="margin: 0; padding: 0;">
+Hi {{host_username}}, Hope you are doing well. The following users have accepted your ride
+  <table>
+    <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th></th>
+          <th scope="col">Email</th>
+          <th></th>
+          <th scope="col">Contact</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for pool in ridepool %}
+        <tr>
+          <td>{{pool.ride.user.username}}</td>
+          <td></td>
+          <td>{{pool.ride.user.email}}</td>
+          <td></td>
+          <td>{{pool.ride.user.profile.contact}}</td>
+        </tr>
+      {% endfor %}
+      </tbody> 
+    </table>
+</body>
+</html>

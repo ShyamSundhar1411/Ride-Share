@@ -103,5 +103,8 @@
     {% endif %}
       </ul>
       {% endif %}
+    {% if accepted_rides or hosted_rides %}
+      <a href = "{% url 'clear_history' %}" class = "btn btn-outline-danger">Clear History</a>
+    {% endif %}
 </div>
 {% endblock %}
