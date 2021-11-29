@@ -142,7 +142,7 @@ def dashboard(request):
     hosted_ride_page = request.GET.get('hosted_ride_page', 1)
     hosted_ride_paginator = Paginator(hostedrides,4)
     hosted_ride_count = hosted_ride_paginator.count
-    acceptrides = RidePool.objects.filter(user = request.user)
+    acceptrides = RidePool.objects.filter(user = request.user).distinct()
     accepted_ride_page = request.GET.get('accepted_ride_page', 1)
     accepted_ride_paginator = Paginator(acceptrides,4)
     accepted_ride_count = accepted_ride_paginator.count
