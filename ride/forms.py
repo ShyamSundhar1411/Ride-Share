@@ -8,6 +8,7 @@ class HostRideForm(forms.ModelForm):
         model = RideHost
         fields = ['start_point','destination','contact','start_time','seats']
 class UserForm(forms.ModelForm):
+    email = forms.EmailField(required = True)
     class Meta:
         model = User
         fields = ['username','email','first_name','last_name']
