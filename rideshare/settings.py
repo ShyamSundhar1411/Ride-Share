@@ -176,7 +176,7 @@ DEFAULT_FROM_EMAIL = "VITrendz Chennai Tech Team <noreply@rideshare.com>"
 
 #Celery Settings
 CELERY_BROKER_URL = os.environ["REDIS_URL"]
-CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
