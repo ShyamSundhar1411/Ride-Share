@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMessage
-from rideshare.settings import DEFAULT_FROM_EMAIL as me
+from rideshare.lsettings import DEFAULT_FROM_EMAIL as me
 
 @shared_task(bind = True)
 def expirehostedride(self,ride_id,user_id):
