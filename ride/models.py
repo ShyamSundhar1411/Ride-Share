@@ -8,7 +8,7 @@ from django.core.validators import MaxValueValidator,MinValueValidator
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-from django_celery_beat.models import PeriodicTask,CrontabSchedule
+from django_celery_beat.models import PeriodicTask,IntervalSchedule
 
 # Create your models here.
 class RideHost(models.Model):
@@ -60,9 +60,9 @@ class Profile(models.Model):
 @receiver(post_save,sender = RideHost)
 def create_expiration_for_ride(sender,instance,created,**kwargs):
     if created:
-        schedule,created = CrontabSchedule.objects.get_or_create(hour = '*/6',minute = '0')
+        schedule,created = IntervalSchedule.objects.get_or_create(every = 6,period=IntervalSchedule.HOURS)
         task_name = "Expire_Ride Automatically"+str(instance.slug)
-        task = PeriodicTask.objects.create(crontab = schedule,name = task_name,task = "ride.tasks.expirehostedride",args = json.dumps([instance.id,instance.user.id]))
+        task = PeriodicTask.objects.create(interval = schedule,name = task_name,task = "ride.tasks.expirehostedride",args = json.dumps([instance.id,instance.user.id]))
 @receiver(post_save,sender = User)
 def create_profile(sender,instance,created,**kwargs):
     if created:
