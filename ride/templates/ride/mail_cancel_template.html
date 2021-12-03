@@ -18,9 +18,9 @@ Hi {{host_username}}, Hope you are doing well. The following users have cancelle
       <tbody>
       {% for pool in ridepool %}
         <tr>
-          <td>{{pool.ride.user.username}}</td>
-          <td>{{pool.ride.user.email}}</td>
-          <td>{{pool.ride.user.profile.contact}}</td>
+          <td>{{pool.user.username}}</td>
+          <td>{{pool.user.email}}</td>
+          <td>{{pool.user.profile.contact}}</td>
         </tr>
       {% endfor %}
       </tbody> 

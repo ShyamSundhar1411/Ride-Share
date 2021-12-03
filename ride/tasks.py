@@ -31,7 +31,7 @@ def send_notification_on_cancellation(self,ride_id,cancelled_id):
     ridepool = RidePool.objects.filter(id = cancelled_id,status = "CANCELLED")
     user = User.objects.get(pk = ride.user.id)
     host_username = user.username
-    html_message = render_to_string('ride/mail_template.html', {'ridepool': ridepool,'host_username':host_username})
+    html_message = render_to_string('ride/mail_cancel_template.html', {'ridepool': ridepool,'host_username':host_username})
     host_email = user.email
     
     subject = 'Cancellation of Ride'
