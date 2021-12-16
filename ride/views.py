@@ -32,7 +32,7 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
 #Function Based
 @login_required
 def home(request):
-    rides = RideHost.objects.filter(status = "OPEN")
+    rides = RideHost.objects.filter(status = "OPEN").order_by('-creation_time')
     if RideHost.objects.filter(user = request.user,status = "OPEN").exists():
         isHost = True
     else:
@@ -84,8 +84,12 @@ def acceptride(request,pk):
                 accepted_ride.seats -=1  
                 accepted_ride.save()
                 send_notification_on_acceptance(pk)
-                messages.success(request,"Accepted the Ride")
-                return redirect("home")
+                if request.user.profile.contact:
+                    messages.success(request,"Accepted the Ride")
+                    return redirect("home")
+                else:
+                    messages.info(request,"Accepted the Ride. Add Contact Number for Best Experience")
+                    return redirect("profile",slug = request.user.profile.slug)
             else:
                 accepted_pool = RidePool.objects.get(user = request.user,ride = accepted_ride)
                 accepted_pool.status = "ACCEPTED"
@@ -93,8 +97,12 @@ def acceptride(request,pk):
                 accepted_ride.seats -=1  
                 accepted_ride.save()
                 send_notification_on_acceptance(pk)
-                messages.success(request,"Accepted the Ride")
-                return redirect("home")
+                if request.user.profile.contact:
+                    messages.success(request,"Accepted the Ride")
+                    return redirect("home")
+                else:
+                    messages.info(request,"Accepted the Ride. Add Contact Number for Best Experience")
+                    return redirect("profile",slug = request.user.profile.slug)
         else:
             messages.error(request,"Error while processing request.")
             return redirect("home")

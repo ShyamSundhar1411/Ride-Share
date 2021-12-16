@@ -1,37 +1,46 @@
 .custom-card{
-  transition-timing-function: ease;
-  transition: 0.3s;
-}
-.custom-card:hover{
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
-}
-.footer-text{
-  text-decoration:none;
-}
-.footer{
+    transition-timing-function: ease;
+    transition: 0.3s;
+  }
+  
+  .custom-card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+  }
+  .footer-text{
+    text-decoration:none;
+  }
+  .footer{
+    position:fixed;
+  }
+  .custom-enrollment{
+    color:green;
+  }
+  @media screen and (max-width: 1090px) {
+    .profile-text{
+      font-size: 14px !important;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .profile-text{
+      font-size: 10px !important;
+    }
+  }
+  @media screen and (max-width: 980px) {
+    .profile-text{
+      font-size: 10px !important;
+    }
+  }
+  @media screen and (max-width: 770px) {
+    .profile-text{
+      font-size: 20px !important;
+    }
+  }
+footer {
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 0px;
   position:fixed;
-}
-.custom-enrollment{
-  color:green;
-}
-@media screen and (max-width: 1090px) {
-  .profile-text{
-    font-size: 14px !important;
-  }
-}
-@media screen and (max-width: 980px) {
-  .profile-text{
-    font-size: 10px !important;
-  }
-}
-@media screen and (max-width: 980px) {
-  .profile-text{
-    font-size: 10px !important;
-  }
-}
-@media screen and (max-width: 770px) {
-  .profile-text{
-    font-size: 20px !important;
-  }
+  bottom:0;
+  width:100%;
 }
