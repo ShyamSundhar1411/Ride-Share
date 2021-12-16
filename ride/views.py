@@ -1,6 +1,6 @@
 from . models import RideHost,RidePool
 from . forms import HostRideForm, UserForm,ProfileForm
-from . tasks import send_notification_on_acceptance,send_notification_on_cancellation,send_notification_on_expiration_to_pools
+from . tasks import send_notification_on_acceptance,send_notification_on_cancellation
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse,Http404
@@ -138,7 +138,6 @@ def deleteride(request,pk):
         if RidePool.objects.filter(ride = accepted_ride).exists():
             RidePool.objects.filter(ride = accepted_ride).update(status = "EXPIRED",isriding = False)
         accepted_ride.save()
-        send_notification_on_expiration_to_pools(accepted_ride.id)
         messages.success(request,"Expired Ride Successfully")
         return redirect("home")
     else:
