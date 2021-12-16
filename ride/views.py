@@ -1,6 +1,6 @@
 from . models import RideHost,RidePool
 from . forms import HostRideForm, UserForm,ProfileForm
-from . tasks import send_notification_on_acceptance,send_notification_on_cancellation
+from . tasks import send_notification_on_acceptance,send_notification_on_cancellation,send_notification_on_expiration_to_pools
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpResponse,Http404
@@ -33,7 +33,13 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
 @login_required
 def home(request):
     rides = RideHost.objects.filter(status = "OPEN").order_by('-creation_time')
+    participants = None
     if RideHost.objects.filter(user = request.user,status = "OPEN").exists():
+        ride = RideHost.objects.filter(user = request.user,status = "OPEN").order_by('-creation_time')[0]
+        if RidePool.objects.filter(ride = ride,status = "ACCEPTED").exists():
+            participants = RidePool.objects.filter(ride = ride,status = "ACCEPTED")
+        else:
+            participants = None
         isHost = True
     else:
         isHost = False
@@ -43,7 +49,7 @@ def home(request):
     except:
         accepted_ride = None
         isRiding = False
-    return render(request,'ride/home.html',{'rides':rides,'isHost':isHost,'isRiding':isRiding,"accepted_ride":accepted_ride})
+    return render(request,'ride/home.html',{'rides':rides,'isHost':isHost,'isRiding':isRiding,"accepted_ride":accepted_ride,'participants':participants})
 @login_required
 def hostaride(request):
     ride = RideHost.objects.filter(user = request.user,status = "OPEN").exists()
@@ -132,6 +138,7 @@ def deleteride(request,pk):
         if RidePool.objects.filter(ride = accepted_ride).exists():
             RidePool.objects.filter(ride = accepted_ride).update(status = "EXPIRED",isriding = False)
         accepted_ride.save()
+        send_notification_on_expiration_to_pools(accepted_ride.id)
         messages.success(request,"Expired Ride Successfully")
         return redirect("home")
     else:
