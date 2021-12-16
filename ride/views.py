@@ -121,6 +121,8 @@ def deleteride(request,pk):
     accepted_ride = RideHost.objects.get(id = pk)
     if request.method == "POST":
         accepted_ride.status = "EXPIRED"
+        if RidePool.objects.filter(ride = accepted_ride).exists():
+            RidePool.objects.filter(ride = accepted_ride).update(status = "EXPIRED",isriding = False)
         accepted_ride.save()
         messages.success(request,"Expired Ride Successfully")
         return redirect("home")

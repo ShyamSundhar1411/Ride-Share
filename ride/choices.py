@@ -4,5 +4,6 @@ Host_Status_Choices = [
     ]
 Pool_Status_Choices = [
     ("ACCEPTED","ACCEPTED"),
-    ("CANCELLED","CANCELLED")
+    ("CANCELLED","CANCELLED"),
+    ("EXPIRED","EXPIRED"),
 ]
