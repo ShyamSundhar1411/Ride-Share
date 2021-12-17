@@ -4,33 +4,33 @@
 <div class = "container">
   <h1>Available Rides</h1>
   <hr/>
-  
+
   <div class  = "container d-inline-block flex" id = "refresh">
-  <div class = "row row-cols-1 row-cols-md-3 mb-3">
-    {% for ride in rides %}
-    <div class="col">
-      <div class="card custom-card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
-          {% if isRiding and ride.id == accepted_ride.ride.id  %}
-          <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
-          {% else %}
-          {% if isHost and ride.user == user %}
-          <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
-          {% else %}
-          <h4 class="my-0 fw-normal">{{ride.start_point}} - {{ride.destination}}</h4>
-          {% endif %}
-          {% endif %}
-        </div>
-        <div class="card-body">
-          <ul class="list-unstyled mt-3 mb-4">
-            <li class = "profile-text card-text">Name : {{ride.user.username}}</li>
-            <li class = "profile-text card-text">Posted on : <i class="fas fa-calendar-alt"></i> {{ride.creation_time}} </li>
-            <li class = "profile-text card-text">Start Time : <i class="fas fa-clock"></i> {{ride.start_time}} </li>
-            <li class = "profile-text card-text">Start Point : {{ride.start_point}}</li>
-            <li class = "profile-text card-text">Destination : {{ride.destination}}</li>
-            <li class = "profile-text card-text">Available Seats : {{ride.seats}}</li>
-          </ul>
-          {% if isHost %}
+    <div class = "row row-cols-1 row-cols-md-3 mb-3">
+      {% for ride in rides %}
+      <div class="col">
+        <div class="card custom-card mb-4 rounded-3 shadow-sm">
+          <div class="card-header py-3">
+            {% if isRiding and ride.id == accepted_ride.ride.id  %}
+            <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
+            {% else %}
+            {% if isHost and ride.user == user %}
+            <h4 class="my-0 fw-normal custom-enrollment">{{ride.start_point}} - {{ride.destination}}</h4>
+            {% else %}
+            <h4 class="my-0 fw-normal">{{ride.start_point}} - {{ride.destination}}</h4>
+            {% endif %}
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+              <li class = "profile-text card-text">Name : {{ride.user.username}}</li>
+              <li class = "profile-text card-text">Posted on : <i class="fas fa-calendar-alt"></i> {{ride.creation_time}} </li>
+              <li class = "profile-text card-text">Start Time : <i class="fas fa-clock"></i> {{ride.start_time}} </li>
+              <li class = "profile-text card-text">Start Point : {{ride.start_point}}</li>
+              <li class = "profile-text card-text">Destination : {{ride.destination}}</li>
+              <li class = "profile-text card-text">Available Seats : {{ride.seats}}</li>
+            </ul>
+            {% if isHost %}
             {% if ride.user == user %}
             {% if participants %}
             <div class="dropdown py-1">
@@ -39,17 +39,17 @@
               </a>
               <ul class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuLink">
                 {% for participant in participants %}
-                  {% if participant.user.profile.contact %}
-                    <li><a class="dropdown-item" href="https://wa.me/{{participant.user.profle.contact|cut:' '}}" target = "_blank">{{participant.user.username}}</a></li>
-                  {% elif participant.user.email %}
-                    <li><a class="dropdown-item" href="mailto:{{participant.user.email}}">{{participant.user.username}}</a></li>
-                  {% else %}
-                    <li><a class="dropdown-item disabled" >{{participant.user.username}}(User has no means of contacts)</a></li>
-                  {% endif %}
+                {% if participant.user.profile.contact %}
+                <li><a class="dropdown-item" href="https://wa.me/{{participant.user.profle.contact|cut:' '}}" target = "_blank">{{participant.user.username}}</a></li>
+                {% elif participant.user.email %}
+                <li><a class="dropdown-item" href="mailto:{{participant.user.email}}">{{participant.user.username}}</a></li>
+                {% else %}
+                <li><a class="dropdown-item disabled" >{{participant.user.username}}(User has no means of contacts)</a></li>
+                {% endif %}
                 {% endfor %}
               </ul>
             </div>
-              {% endif %}
+            {% endif %}
             <form method = "POST" action = "{% url 'delete_hosted_ride' ride.id %}">
               {% csrf_token %}
               <div class = "d-inline-block py-1">
@@ -57,57 +57,57 @@
               </div>
               <a href = "{% url 'edit_hosted_ride' ride.id ride.slug %}" class = "btn btn-outline-primary">Edit Ride</a>
             </form>
-            
+
             {% else %}
             <button type = "submit" class = "btn disabled btn-outline-info">Already Hosted a Ride</button>
             {% endif %}
-          {% else %}
-                {% if isRiding %}
-                    {% if ride.id == accepted_ride.ride.id %}
-                      <form method = "POST" action = "{% url 'cancel_ride' accepted_ride.id %}">
-                        {% csrf_token %}
-                        <div class = "d-inline-block">
-                          <a href = "https://wa.me/{{ride.contact|cut:' '}}" class = "btn btn-outline-primary">Contact</a>
-                          <button type = "submit" class = "btn btn-outline-danger">Cancel</button>
-                        </div>
-                      </form>
-                    {% else %}
-                    <button type = "submit" class = "btn disabled btn-outline-info">Already enrolled a Ride</button>
-                    {% endif %}
-                {% else %}
-                  <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
-                    {% csrf_token %}
-                    {% if ride.seats == 0 %}
-                    <div class = "d-inline-block">
-                      <button type = "submit" class = "btn disabled btn-outline-secondary">Accept Ride</button>
-                    </div>
-                    {% else %}
-                    <div class = "d-inline-block">
-                      <button type = "submit" class = "btn btn-outline-success">Accept Ride</button>
-                    </div>
-                    {% endif %}
-                  </form>
-                {% endif %}
+            {% else %}
+            {% if isRiding %}
+            {% if ride.id == accepted_ride.ride.id %}
+            <form method = "POST" action = "{% url 'cancel_ride' accepted_ride.id %}">
+              {% csrf_token %}
+              <div class = "d-inline-block">
+                <a href = "https://wa.me/{{ride.contact|cut:' '}}" class = "btn btn-outline-primary">Contact</a>
+                <button type = "submit" class = "btn btn-outline-danger">Cancel</button>
+              </div>
+            </form>
+            {% else %}
+            <button type = "submit" class = "btn disabled btn-outline-info">Already enrolled a Ride</button>
             {% endif %}
+            {% else %}
+            <form method = "POST" action = "{% url 'accept_ride' ride.id %}">
+              {% csrf_token %}
+              {% if ride.seats == 0 %}
+              <div class = "d-inline-block">
+                <button type = "submit" class = "btn disabled btn-outline-secondary">Accept Ride</button>
+              </div>
+              {% else %}
+              <div class = "d-inline-block">
+                <button type = "submit" class = "btn btn-outline-success">Accept Ride</button>
+              </div>
+              {% endif %}
+            </form>
+            {% endif %}
+            {% endif %}
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-  <div class = "d-inline-block float-end">
-    {% if isHost or isRiding %}
-    <a href = "{% url 'create_ride' %}" class = "btn disabled btn-primary"><i class="fas fa-plus"></i> Host Ride</a>
-    {% else %}
-    <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Host Ride</a>
-    {% endif %}
+    <div class = "d-inline-block float-end">
+      {% if isHost or isRiding %}
+      <a href = "{% url 'create_ride' %}" class = "btn disabled btn-primary"><i class="fas fa-plus"></i> Host Ride</a>
+      {% else %}
+      <a href = "{% url 'create_ride' %}" class = "btn btn-primary"><i class="fas fa-plus"></i> Host Ride</a>
+      {% endif %}
+    </div>
   </div>
 </div>
-</div>
-<script> 
+<script>
   $(document).ready(function(){
-  setInterval(function(){
-    $("#refresh").load(" #refresh > *");
-  }, 4000);
+    setInterval(function(){
+      $("#refresh").load(" #refresh > *");
+    }, 4000);
   });
 </script>
 {% endblock %}

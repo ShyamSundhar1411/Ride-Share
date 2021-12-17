@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMessage,send_mail
-from rideshare.settings import DEFAULT_FROM_EMAIL as me
+from rideshare.local_settings import DEFAULT_FROM_EMAIL as me
 @shared_task(bind = True)
 def send_notification_on_expiration_to_host(self,ride_id,user_id):
     ride = RideHost.objects.get(pk = ride_id)
@@ -15,12 +15,24 @@ def send_notification_on_expiration_to_host(self,ride_id,user_id):
     destination = ride.destination
     start_time = ride.start_time
     subject = 'Expiration of Ride'
-    content = '''Hello {} hope you are doing well. We are Sorry to inform that your ride from {} to {} which was about to start by {} has been expired automatically by our website norms
+    content = '''Hello {} hope you are doing well. We are Sorry to inform you that your ride from {} to {} which was about to start by {} has been expired automatically by our website norms
     Thank You
     Best Regards
     '''.format(user.username,start_point,destination,start_time)
     message = EmailMessage(subject, content, me, [user_mail])
     message.send()
+@shared_task(bind = True)
+def send_notification_on_expiration_to_pools(self,email_list,ride_id):
+    ride = RideHost.objects.get(pk = ride_id)
+    start_point = ride.start_point
+    destination = ride.destination
+    start_time = ride.start_time
+    subject = "Expiration of Ride"
+    content = '''Hi, Hope you are doing well. We are Sorry to inform you that your ride from {} to {} which was about to start by {} was either expired by user or expired automatically by our website norms.
+    Thank You
+    Best Regards
+    '''.format(start_point,destination,start_time)
+    send_mail(subject,content,me,email_list)
 @shared_task(bind = True)
 def expirehostedride(self,ride_id,user_id):
     user = User.objects.get(pk = user_id)
@@ -32,6 +44,7 @@ def expirehostedride(self,ride_id,user_id):
             email = i.user.email
             email_l.append(email)
         RidePool.objects.filter(ride = ride,status = "ACCEPTED").update(status = "EXPIRED",isriding = False)
+        send_notification_on_expiration_to_pools(email_l,ride_id)
     if ride.status == "OPEN":
         ride.status = "EXPIRED"
         send_notification_on_expiration_to_host(ride_id,user_id)

@@ -2,6 +2,7 @@
 {% block content %}
 {% load crispy_forms_tags %}
 {% load static %}
+<div class="container">
 <div class = 'container py-2'>
     <div class="d-inline-block d-flex">
         <div class = "row">
@@ -54,8 +55,8 @@
                                 {{profile_form.address|as_crispy_field}}
                             </div>
                         </div>
-                        <div class = "d-inline-block py-2">
-                            <button type = "submit" class = "btn btn-primary me-2 py-1">Update Profile</button>
+                        <div class = "d-inline-block py-3">
+                            <button type = "submit" class = "margin-bottom btn btn-primary me-2 py-1">Update Profile</button>
                             <a href="{% url 'account_set_password' %}" class = "btn btn-primary me-2 py-1">Change Password</a>
                         </div>
                     </div>
@@ -65,4 +66,5 @@
     </div>
 
 </div>
-    {% endblock %}
+</div>
+{% endblock %}
