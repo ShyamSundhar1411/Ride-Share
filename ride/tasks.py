@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import EmailMessage,send_mail
-from rideshare.local_settings import DEFAULT_FROM_EMAIL as me
+from rideshare.settings import DEFAULT_FROM_EMAIL as me
 @shared_task(bind = True)
 def send_notification_on_expiration_to_host(self,ride_id,user_id):
     ride = RideHost.objects.get(pk = ride_id)
