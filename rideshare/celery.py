@@ -3,7 +3,7 @@ from celery import Celery
 from django.conf import settings
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE','rideshare.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE','rideshare.local_settings')
 app = Celery("rideshare")
 app.conf.enable_utc = False
 app.conf.update(timezone = 'Asia/Kolkata')

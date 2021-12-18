@@ -3,6 +3,7 @@ from . forms import HostRideForm, UserForm,ProfileForm
 from . tasks import send_notification_on_acceptance,send_notification_on_cancellation,send_notification_on_expiration_to_pools
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from phonenumber_field.modelfields import PhoneNumberField
 from django.http import HttpResponse,Http404
 from django.contrib import messages
 from django.views import generic
@@ -28,7 +29,6 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
         slug = self.kwargs["slug"]
         messages.success(self.request,'Updated Successfully')
         return reverse("edit_hosted_ride", kwargs={"pk": pk,'slug':slug})
-
 #Function Based
 @login_required
 def home(request):
@@ -52,6 +52,9 @@ def home(request):
     return render(request,'ride/home.html',{'rides':rides,'isHost':isHost,'isRiding':isRiding,"accepted_ride":accepted_ride,'participants':participants})
 @login_required
 def hostaride(request):
+    if not(request.user.profile.contact):
+        messages.info(request, "Add your contact to continue to host your ride. Until then you will be prompted for the same.")
+        return redirect("profile",slug = request.user.profile.slug)
     ride = RideHost.objects.filter(user = request.user,status = "OPEN").exists()
     accepted_ride  = RidePool.objects.filter(user = request.user,status = "ACCEPTED").exists()
     if ride:

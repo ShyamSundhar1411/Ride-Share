@@ -13,9 +13,9 @@ from django_celery_beat.models import PeriodicTask,IntervalSchedule
 # Create your models here.
 class RideHost(models.Model):
     user = models.ForeignKey(User,on_delete = models.CASCADE)
-    contact = PhoneNumberField()
-    start_point = models.CharField(max_length = 500,null = True,blank = True)
-    destination = models.CharField(max_length = 500,null = True,blank = True)
+    contact = PhoneNumberField(blank = True)
+    start_point = models.CharField(max_length = 500,null = True)
+    destination = models.CharField(max_length = 500,null = True)
     creation_time = models.DateTimeField(auto_now_add = True)
     start_time = models.DateTimeField(editable = True)
     status = models.CharField(max_length = 500,choices = Host_Status_Choices,default = "EXPIRED")
@@ -25,7 +25,7 @@ class RideHost(models.Model):
     def __str__(self):
         return str(self.contact)+'-'+str(self.destination)
     def save(self,*args,**kwargs):
-        if self.contact is None:
+        if not self.contact:
             self.contact = self.user.profile.contact
         if not self.slug:
             self.slug = uuid.uuid4()
