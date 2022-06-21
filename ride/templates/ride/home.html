@@ -40,7 +40,7 @@
               <ul class="dropdown-menu dropdown-content" aria-labelledby="dropdownMenuLink">
                 {% for participant in participants %}
                 {% if participant.user.profile.contact %}
-                <li><a class="dropdown-item" href="https://wa.me/{{participant.user.profle.contact|cut:' '}}" target = "_blank">{{participant.user.username}}</a></li>
+                <li><a class="dropdown-item" href="https://wa.me/{{participant.user.profile.contact|cut:' '}}" target = "_blank">{{participant.user.username}}</a></li>
                 {% elif participant.user.email %}
                 <li><a class="dropdown-item" href="mailto:{{participant.user.email}}">{{participant.user.username}}</a></li>
                 {% else %}
