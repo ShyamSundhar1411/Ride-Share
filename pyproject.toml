@@ -9,7 +9,7 @@ python = "^3.9"
 Django = "^4.0.5"
 Pillow = "^9.1.1"
 celery = "^5.2.7"
-django-phonenumber-field = {extras = ["phoenumbers"], version = "^6.3.0"}
+django-phonenumber-field = {extras = ["phonenumbers"], version = "^6.3.0"}
 django-crispy-forms = "^1.14.0"
 django-celery-beat = "^2.3.0"
 django-celery-results = "^2.3.1"
@@ -19,6 +19,7 @@ django-environ = "^0.9.0"
 python-environ = "^0.4.54"
 cloudinary = "^1.29.0"
 django-cloudinary-storage = "^0.3.0"
+phonenumbers = "^8.12.50"
 
 [tool.poetry.dev-dependencies]
 

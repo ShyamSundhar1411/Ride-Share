@@ -317,6 +317,7 @@ python-versions = ">=3.7"
 
 [package.dependencies]
 Django = ">=2.2"
+phonenumbers = {version = ">=7.0.2", optional = true, markers = "extra == \"phonenumbers\""}
 
 [package.extras]
 phonenumbers = ["phonenumbers (>=7.0.2)"]
@@ -381,6 +382,14 @@ python-versions = ">=3.6"
 rsa = ["cryptography (>=3.0.0)"]
 signals = ["blinker (>=1.4.0)"]
 signedtoken = ["cryptography (>=3.0.0)", "pyjwt (>=2.0.0,<3)"]
+
+[[package]]
+name = "phonenumbers"
+version = "8.12.50"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+category = "main"
+optional = false
+python-versions = "*"
 
 [[package]]
 name = "pillow"
@@ -627,7 +636,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "22ac12fb160c4c2be7ac6c51fb9a7f2c42b10d68016c93b9d7a58f4503f8f0db"
+content-hash = "492e4ccfccdb92c156ed8672f48023e964f077e3d6500a6ce0b6196fe627caea"
 
 [metadata.files]
 amqp = [
@@ -808,6 +817,10 @@ kombu = [
 oauthlib = [
     {file = "oauthlib-3.2.0-py3-none-any.whl", hash = "sha256:6db33440354787f9b7f3a6dbd4febf5d0f93758354060e802f6c06cb493022fe"},
     {file = "oauthlib-3.2.0.tar.gz", hash = "sha256:23a8208d75b902797ea29fd31fa80a15ed9dc2c6c16fe73f5d346f83f6fa27a2"},
+]
+phonenumbers = [
+    {file = "phonenumbers-8.12.50-py2.py3-none-any.whl", hash = "sha256:56713403b4160b59ea1fef4e842ddeb70931055146d794d371b60cd4b5f05fb8"},
+    {file = "phonenumbers-8.12.50.tar.gz", hash = "sha256:f00d67f20875804f4fade4803a9438294029982ac929c6ba303e1f0290cf5d45"},
 ]
 pillow = [
     {file = "Pillow-9.1.1-cp310-cp310-macosx_10_10_x86_64.whl", hash = "sha256:42dfefbef90eb67c10c45a73a9bc1599d4dac920f7dfcbf4ec6b80cb620757fe"},
