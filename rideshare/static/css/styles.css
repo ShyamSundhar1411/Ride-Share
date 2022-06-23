@@ -22,15 +22,21 @@
     .profile-text{
       font-size: 14px !important;
     }
+    .custom-land-page-text{
+      font-size: 12px !important;
+    }
   }
   @media screen and (max-width: 990px) {
     .profile-text{
       font-size: 9px !important;
     }
   }
-  @media screen and (max-width: 770px) {
+  @media screen and (max-width: 800px) {
     .profile-text{
       font-size: 15px !important;
+    }
+    .custom-land-page-text{
+      font-size: 12px !important;
     }
   }
 .dropdown-content {
@@ -62,9 +68,4 @@
 .margin-bottom {
   margin-bottom: 5px;
   vertical-align: baseline;
-}
-@media only screen and (max-width: 800px) {
-  .heighlight-phone .intro{
-    font-size:11px;
-  }
 }

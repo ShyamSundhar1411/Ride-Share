@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<style>
-    .highlight-phone .phone-mockup .screen{
-        background: url('{% static 'screen-content-phone.jpg' %}');
-    }
-</style>
 <div class = "container">
-    <a href = "{% url 'social:begin' 'google-oauth2' %}">Google</a>
     <div class="container">
         <div class="row highlight-phone">
             <div class="col-md-6">
@@ -17,16 +11,16 @@
                             <div class="col-md-8">
                                 <div class="intro">
                                     <h2 class = "text-center">VRide</h2>
-                                    <p>This is an initiative by VITrendz for Students. VRide is essentially a pooling system that can assist individuals in finding travel companions.
+                                    <p class = "custom-land-page-text">This is an initiative by VITrendz for Students. VRide is essentially a pooling system that can assist individuals in finding travel companions.
                                         Users can login with google authentication and Explore about the Pooling opportunities available.
-                                    </p><a class="btn btn-primary" role="button" href="#" style="background: linear-gradient(43deg, #405de6 0%, #5851d8 17%, #833ab4 37%, #c13584 49%, #e1306c 72%, #e1306c 88%, #ee8bac 97%, #ffdc80 100%), var(--bs-red);" data-bss-hover-animate="pulse">Get Started <i class="fa fa-long-arrow-right"></i></a>
+                                    </p><a class="btn btn-primary" role="button" href="{% url 'social:begin' 'google-oauth2' %}" style="background: linear-gradient(43deg, #405de6 0%, #5851d8 17%, #833ab4 37%, #c13584 49%, #e1306c 72%, #e1306c 88%, #ee8bac 97%, #ffdc80 100%), var(--bs-red);" data-bss-hover-animate="pulse">Get Started <i class="fa fa-long-arrow-right"></i></a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 custom-column">
                 <div class = "row">
                     <div class = "col-md-4">
                         <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_ZZ5gpp.json"  background="transparent"  speed="1"  style="width: auto; height: auto;"  loop  autoplay></lottie-player>
