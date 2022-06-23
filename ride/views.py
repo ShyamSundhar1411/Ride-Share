@@ -1,8 +1,10 @@
+from django.db.models import Q
 from . models import RideHost,RidePool
 from . forms import HostRideForm, UserForm,ProfileForm
 from . tasks import send_notification_on_acceptance,send_notification_on_cancellation,send_notification_on_expiration_to_pools
 from django.shortcuts import render,get_object_or_404,redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from phonenumber_field.modelfields import PhoneNumberField
 from django.http import HttpResponse,Http404
 from django.contrib import messages
@@ -36,12 +38,15 @@ def landingpage(request):
     return render(request,"ride/landing_page.html")
 @login_required
 def home(request):
-    rides = RideHost.objects.filter(status = "OPEN").order_by('-creation_time')
+    rides = RideHost.objects.prefetch_related("user").filter(status = "OPEN").order_by('-creation_time')
     participants = None
-    if RideHost.objects.filter(user = request.user,status = "OPEN").exists():
-        ride = RideHost.objects.filter(user = request.user,status = "OPEN").order_by('-creation_time')[0]
-        if RidePool.objects.filter(ride = ride,status = "ACCEPTED").exists():
-            participants = RidePool.objects.filter(ride = ride,status = "ACCEPTED")
+    search_input = request.GET.get('search') or ''
+    if search_input:
+        rides = RideHost.objects.filter(Q(start_point__contains = search_input)|Q(destination__contains = search_input)).order_by('-creation_time')
+    if RideHost.objects.prefetch_related("user").filter(user = request.user,status = "OPEN").exists():
+        ride = RideHost.objects.prefetch_related("user").filter(user = request.user,status = "OPEN").order_by('-creation_time')[0]
+        if RidePool.objects.prefetch_related("ride").filter(ride = ride,status = "ACCEPTED").exists():
+            participants = RidePool.objects.prefetch_related("ride").filter(ride = ride,status = "ACCEPTED")
         else:
             participants = None
         isHost = True
@@ -59,8 +64,8 @@ def hostaride(request):
     if not(request.user.profile.contact):
         messages.info(request, "Add your contact to continue to host your ride. Until then you will be prompted for the same.")
         return redirect("profile",slug = request.user.profile.slug)
-    ride = RideHost.objects.filter(user = request.user,status = "OPEN").exists()
-    accepted_ride  = RidePool.objects.filter(user = request.user,status = "ACCEPTED").exists()
+    ride = RideHost.objects.prefetch_related("user").filter(user = request.user,status = "OPEN").exists()
+    accepted_ride  = RidePool.objects.prefetch_related("ride").filter(user = request.user,status = "ACCEPTED").exists()
     if ride:
         messages.error(request,"You currently Hosted a ride wait till it expires.")
         return redirect("home")
@@ -87,8 +92,8 @@ def hostaride(request):
 def acceptride(request,pk):
     accepted_ride = RideHost.objects.get(id = pk)
     if request.method == "POST":
-        if not RidePool.objects.filter(ride = accepted_ride,status = "OPEN",user = request.user).exists() and  not accepted_ride.available > accepted_ride.seats:
-            if not RidePool.objects.filter(ride = accepted_ride,user = request.user).exists():
+        if not RidePool.objects.prefetch_related("ride").filter(ride = accepted_ride,status = "OPEN",user = request.user).exists() and  not accepted_ride.available > accepted_ride.seats:
+            if not RidePool.objects.prefetch_related("ride").filter(ride = accepted_ride,user = request.user).exists():
                 RidePool.objects.create(
                     user = request.user,
                     ride = accepted_ride,
@@ -123,8 +128,8 @@ def acceptride(request,pk):
         return redirect("create_ride")
 @login_required
 def cancelride(request,pk):
-    accepted_pool_ride = RidePool.objects.get(id=pk)
-    accepted_ride = RideHost.objects.get(id = accepted_pool_ride.ride.id)
+    accepted_pool_ride = RidePool.objects.prefetch_related("user").get(id=pk)
+    accepted_ride = RideHost.objects.prefetch_related("user").get(id = accepted_pool_ride.ride.id)
     if request.method == "POST":
         accepted_pool_ride.status = "CANCELLED"
         accepted_pool_ride.isriding = False
@@ -139,16 +144,16 @@ def cancelride(request,pk):
         return redirect("home")
 @login_required
 def deleteride(request,pk):
-    accepted_ride = RideHost.objects.get(id = pk)
+    accepted_ride = RideHost.objects.prefetch_related("user").get(id = pk)
     if request.method == "POST":
         accepted_ride.status = "EXPIRED"
-        if RidePool.objects.filter(ride = accepted_ride).exists():
-            pool_mails = RidePool.objects.filter(ride = accepted_ride,status = "ACCEPTED")
+        if RidePool.objects.prefetch_related("ride").filter(ride = accepted_ride).exists():
+            pool_mails = RidePool.objects.prefetch_related("ride").filter(ride = accepted_ride,status = "ACCEPTED")
             email_l = []
             for i in pool_mails:
                 email = i.user.email
                 email_l.append(email)
-            RidePool.objects.filter(ride = accepted_ride).update(status = "EXPIRED",isriding = False)
+            RidePool.objects.prefetch_related("ride").filter(ride = accepted_ride).update(status = "EXPIRED",isriding = False)
             send_notification_on_expiration_to_pools(email_l,pk)
         accepted_ride.save()
         messages.success(request,"Expired Ride Successfully")

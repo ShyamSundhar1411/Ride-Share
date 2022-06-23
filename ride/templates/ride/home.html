@@ -4,8 +4,19 @@
 <div class = "container">
   <h1>Available Rides</h1>
   <hr/>
-
   <div class  = "container d-inline-block flex" id = "refresh">
+    <div class = "row">
+      <form class = "py-2" method = "GET" enctype = "multipart/form-data">
+        <div class = "row">
+          <div class = "col-md-8 py-2">
+            <input type="search" name = "search" class="form-control" placeholder="{% if search_input %}{{search_input}}{% else %}Search Start Point or Destination{% endif %}" aria-label="Search">
+          </div>
+          <div class = "col-md-4 py-2">
+            <button type = "submit" class = "btn btn-primary">Search</button>
+          </div>
+        </div>
+      </form>
+  </div>
     <div class = "row row-cols-1 row-cols-md-3 mb-3">
       {% for ride in rides %}
       <div class="col">

@@ -40,11 +40,11 @@
       <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
     {% endif %}
     {% for num in hosted_rides.paginator.page_range %}
-      {% ifequal num hosted_rides.number %}
+      {% if num == hosted_rides.number %}
         <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
       {% else %}
         <li class = 'page-item'><a class="page-link" href="?hosted_ride_page={{ num }}">{{ num }}</a></li>
-      {% endifequal %}
+      {% endif %}
     {% endfor %}
     {% if hosted_rides.has_next %}
       <li class = 'page-item'><a class="page-link" href="?hosted_ride_page={{ hosted_ride.next_page_number }}">&raquo;</a></li>
@@ -92,11 +92,11 @@
       <li class="disabled page-item" ><a href="#" class="page-link">&laquo;</a></li>
     {% endif %}
     {% for num in accepted_rides.paginator.page_range %}
-      {% ifequal num accepted_rides.number %}
+      {% if num == accepted_rides.number %}
         <li class="active page-item"><a href="#" class="page-link">{{ num }}<span class="sr-only">(current)</span></a></li>
       {% else %}
         <li class = 'page-item'><a class="page-link" href="?accepted_ride_page={{ num }}">{{ num }}</a></li>
-      {% endifequal %}
+      {% endif %}
     {% endfor %}
     {% if accepted_rides.has_next %}
       <li class = 'page-item'><a class="page-link" href="?accepted_ride_page={{ accepted_rides.next_page_number }}">&raquo;</a></li>
