@@ -30,6 +30,10 @@ class HostRideEditView(LoginRequiredMixin,generic.UpdateView):
         messages.success(self.request,'Updated Successfully')
         return reverse("edit_hosted_ride", kwargs={"pk": pk,'slug':slug})
 #Function Based
+def landingpage(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    return render(request,"ride/landing_page.html")
 @login_required
 def home(request):
     rides = RideHost.objects.filter(status = "OPEN").order_by('-creation_time')
@@ -199,5 +203,5 @@ def clear_history(request):
     acceptedrides = RidePool.objects.filter(user = request.user).delete()
     messages.success(request,"History Cleared")
     return redirect("dashboard")
-    
+
     

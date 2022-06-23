@@ -3,6 +3,7 @@ from django.urls import path,include
 
 
 urlpatterns = [
+    path('',views.home,name = "home"),
     #HostARide
     path('create/',views.hostaride,name = "create_ride"),
     path('ride/<int:pk>/edit/<slug:slug>/',views.HostRideEditView.as_view(),name ="edit_hosted_ride"),

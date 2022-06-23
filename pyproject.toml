@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "vitc_ride_share_project"
+version = "0.1.0"
+description = ""
+authors = ["ShyamSundhar1411 <clashwithchiefrpjyt@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Django = "^4.0.5"
+Pillow = "^9.1.1"
+celery = "^5.2.7"
+django-phonenumber-field = {extras = ["phoenumbers"], version = "^6.3.0"}
+django-crispy-forms = "^1.14.0"
+django-celery-beat = "^2.3.0"
+django-celery-results = "^2.3.1"
+django-heroku = "^0.3.1"
+social-auth-app-django = "^5.0.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

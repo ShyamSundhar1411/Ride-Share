@@ -23,10 +23,12 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.home,name = "home"),
+    
     path('ride/',include("ride.urls")),
+    path('',views.landingpage,name = "landing_page"),
+    path('registration/', include('social_django.urls',namespace = "social")),
     #Authentications
-    path('accounts/',include("allauth.urls")),
+    path('logout/',auth_views.LogoutView.as_view(),name = "logout"),
     path('profile/<slug:slug>',views.profile,name = "profile"),
 
 ]

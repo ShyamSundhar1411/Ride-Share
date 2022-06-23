@@ -45,13 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ride',
     #Authentication
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
     #Third Party Packages
     'phonenumber_field',
     'crispy_forms',
+    'social_django',
     #Celery
     'django_celery_beat',
     'django_celery_results',
@@ -156,15 +153,14 @@ MESSAGE_TAGS = {
  }
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'social_core.backends.google.GoogleOAuth2',
 ]
 SITE_ID = 1
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-ACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_STORE_TOKENS = False
-LOGOUT_URL = "account_logout"
-ACCOUNT_LOGOUT_REDIRECT_URL = "account_login"
+LOGOUT_URL = "logout"
+LOGOUT_REDIRECT_URL = "landing_page"
 LOGIN_REDIRECT_URL = "home"
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env.str('GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env.str('GOOGLE_CLIENT_SECRET')
 #Email Backends
 EMAIL_BACKEND = env.str('EMAIL_BACKEND',default = "django.core.mail.backends.smtp.EmailBackend")
 EMAIL_USE_TLS = True

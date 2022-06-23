@@ -63,3 +63,8 @@
   margin-bottom: 5px;
   vertical-align: baseline;
 }
+@media only screen and (max-width: 800px) {
+  .heighlight-phone .intro{
+    font-size:11px;
+  }
+}

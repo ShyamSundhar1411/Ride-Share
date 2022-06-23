@@ -13,6 +13,11 @@
     gtag('js', new Date());
     gtag('config', 'G-LVHKFJHWCQ');
   </script>
+  <link rel="stylesheet" href="{% static 'styles.css' %}" type="text/css" media="screen" >
+  <link rel="apple-touch-icon" href="{% static 'dummylogo.png' %}" sizes="180x180">
+  <link rel="icon" href="{% static 'dummylogo.png' %}" sizes="32x32" type="image/png">
+  <link rel="icon" href="{% static 'dummylogo.png' %}" sizes="16x16" type="image/png">
+  <link rel="mask-icon" href="{% static 'dummylogo.png' %}" color="#563d7c">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -20,8 +25,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Corinthia&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}" type="text/css" media="screen" >
   <link rel = "stylesheet" href = "{% static 'css/fonts.css' %}" type="text/css" media = "screen">
+  <link rel = "stylesheet" href = "{% static 'css/Highlight-Phone.css' %}" type="text/css" media = "screen">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>VRide</title>
 </head>
 <body>
@@ -40,14 +49,7 @@
             {% if user.is_authenticated %}
             <a class='nav-item nav-link' href="{% url 'dashboard' %}">Dashboard</a>
             <a class='nav-item nav-link' href="{% url 'profile' user.profile.slug %}">Profile</a>
-            <a class='nav-item nav-link' href="{% url 'account_logout' %}">Logout </a>
-            {% else %}
-            <li class="nav-item ">
-              <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'account_login' %}">Login</a>
-            </li>
+            <a class='nav-item nav-link' href="{% url 'logout' %}">Logout </a>
             {% endif %}
           </ul>
         </div>
@@ -62,13 +64,15 @@
   <footer class="text-muted">
     <div class="container text-center">
       <p class='text-body'>
-        <a href = "{% url 'home' %}" class = 'text-muted footer-text'>Copyrights © VIT Chennai  {% now "Y" %}</a>
+        <a href = "{% url 'home' %}" class = 'text-muted footer-text'>Copyrights © VITrendZ Chennai  {% now "Y" %}</a>
       </div>
     </div>
   </footer>
   <!-- XDSoft DateTimePicker -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+  <script src = "{% static 'bs-init.js' %}"></script>
 </body>
 </html>
