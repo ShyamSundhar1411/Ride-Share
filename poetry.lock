@@ -159,6 +159,19 @@ prompt-toolkit = "*"
 six = "*"
 
 [[package]]
+name = "cloudinary"
+version = "1.29.0"
+description = "Python and Django SDK for Cloudinary"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+certifi = "*"
+six = "*"
+urllib3 = ">=1.26.5,<2"
+
+[[package]]
 name = "colorama"
 version = "0.4.5"
 description = "Cross-platform colored terminal text."
@@ -243,6 +256,21 @@ python-versions = "*"
 
 [package.dependencies]
 celery = ">=5.2.3,<6.0"
+
+[[package]]
+name = "django-cloudinary-storage"
+version = "0.3.0"
+description = "Django package that provides Cloudinary storages for both media and static files as well as management commands for removing unnecessary files."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+cloudinary = ">=1.4.0"
+requests = ">=2.10.0"
+
+[package.extras]
+video = ["python-magic (>=0.4.12)"]
 
 [[package]]
 name = "django-crispy-forms"
@@ -599,7 +627,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "76d830a2609072afd2a289aeb8485b64de70ee0fa4d70938703177f495a5be7f"
+content-hash = "22ac12fb160c4c2be7ac6c51fb9a7f2c42b10d68016c93b9d7a58f4503f8f0db"
 
 [metadata.files]
 amqp = [
@@ -694,6 +722,9 @@ click-repl = [
     {file = "click-repl-0.2.0.tar.gz", hash = "sha256:cd12f68d745bf6151210790540b4cb064c7b13e571bc64b6957d98d120dacfd8"},
     {file = "click_repl-0.2.0-py3-none-any.whl", hash = "sha256:94b3fbbc9406a236f176e0506524b2937e4b23b6f4c0c0b2a0a83f8a64e9194b"},
 ]
+cloudinary = [
+    {file = "cloudinary-1.29.0.tar.gz", hash = "sha256:f436ef3ddb2b3989199afaf82bc50655b187bf1ae98c4bf0bb3eb63055953466"},
+]
 colorama = [
     {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
     {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
@@ -741,6 +772,10 @@ django-celery-beat = [
 django-celery-results = [
     {file = "django_celery_results-2.3.1-py3-none-any.whl", hash = "sha256:b8c9416619dbcc38f13398e31bcb1f14a228cd1e8f65fb22d3b7fc68aaa5331a"},
     {file = "django_celery_results-2.3.1.tar.gz", hash = "sha256:bf24ecc29c42e49cc7eb30b9b3739471331e2a0ca517cc88ca53a0cf3a2031d1"},
+]
+django-cloudinary-storage = [
+    {file = "django-cloudinary-storage-0.3.0.tar.gz", hash = "sha256:debd403a5f225c9d35c4af508ff4abc7fdc262129464134b60b2feeb2c44d3e1"},
+    {file = "django_cloudinary_storage-0.3.0-py3-none-any.whl", hash = "sha256:95c855c7334141b2a485ea7eb5716de87bb6ce0d848e205debb3a3ab7bbbd49a"},
 ]
 django-crispy-forms = [
     {file = "django-crispy-forms-1.14.0.tar.gz", hash = "sha256:35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"},
