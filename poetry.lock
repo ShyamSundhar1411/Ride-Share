@@ -253,6 +253,19 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "django-environ"
+version = "0.9.0"
+description = "A package that allows you to utilize 12factor inspired environment variables to configure your Django application."
+category = "main"
+optional = false
+python-versions = ">=3.4,<4"
+
+[package.extras]
+develop = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)", "furo (>=2021.8.17b43,<2021.9.0)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
+docs = ["furo (>=2021.8.17b43,<2021.9.0)", "sphinx (>=3.5.0)", "sphinx-notfound-page"]
+testing = ["coverage[toml] (>=5.0a4)", "pytest (>=4.6.11)"]
+
+[[package]]
 name = "django-heroku"
 version = "0.3.1"
 description = "This is a Django library for Heroku apps."
@@ -421,6 +434,14 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
 six = ">=1.5"
 
 [[package]]
+name = "python-environ"
+version = "0.4.54"
+description = "Django-environ allows you to utilize 12factor inspired environment variables to configure your Django application."
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "python3-openid"
 version = "3.2.0"
 description = "OpenID support for modern servers and consumers."
@@ -578,7 +599,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "094a604a1b250ba704b6d2132a330eefea5d1ac047bb1c8034be4f581df54f52"
+content-hash = "76d830a2609072afd2a289aeb8485b64de70ee0fa4d70938703177f495a5be7f"
 
 [metadata.files]
 amqp = [
@@ -725,6 +746,10 @@ django-crispy-forms = [
     {file = "django-crispy-forms-1.14.0.tar.gz", hash = "sha256:35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"},
     {file = "django_crispy_forms-1.14.0-py3-none-any.whl", hash = "sha256:bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"},
 ]
+django-environ = [
+    {file = "django-environ-0.9.0.tar.gz", hash = "sha256:bff5381533056328c9ac02f71790bd5bf1cea81b1beeb648f28b81c9e83e0a21"},
+    {file = "django_environ-0.9.0-py2.py3-none-any.whl", hash = "sha256:f21a5ef8cc603da1870bbf9a09b7e5577ab5f6da451b843dbcc721a7bca6b3d9"},
+]
 django-heroku = [
     {file = "django-heroku-0.3.1.tar.gz", hash = "sha256:6af4bc3ae4a9b55eaad6dbe5164918982d2762661aebc9f83d9fa49f6009514e"},
     {file = "django_heroku-0.3.1-py2.py3-none-any.whl", hash = "sha256:2bc690aab89eedbe01311752320a9a12e7548e3b0ed102681acc5736a41a4762"},
@@ -820,6 +845,9 @@ python-crontab = [
 python-dateutil = [
     {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
     {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
+]
+python-environ = [
+    {file = "python-environ-0.4.54.tar.gz", hash = "sha256:6249a14057f95aba3b4906d73276f770e01e659f8098b3f3b34295feac42865b"},
 ]
 python3-openid = [
     {file = "python3-openid-3.2.0.tar.gz", hash = "sha256:33fbf6928f401e0b790151ed2b5290b02545e8775f982485205a066f874aaeaf"},
