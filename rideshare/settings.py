@@ -126,7 +126,7 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
+ADMINS = [("Shyam","shyamsundhar2435@gmail.com")]
 #Static and Media Serves
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
